@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: darkgreen;
-    color: goldenrod;
+    background-color: white; /* خلفية بيضاء */
+    color: black; /* نص أسود */
     margin: 0;
     padding: 0;
     direction: rtl;
@@ -17,22 +17,35 @@ body {
     margin-top: 100px;
 }
 
-input, textarea, button {
+input, textarea {
     display: block;
     margin: 10px auto;
     padding: 10px;
     width: 80%;
     max-width: 400px;
-    border: 1px solid goldenrod;
-    background-color: #333;
-    color: goldenrod;
+    border: 2px solid darkgreen; /* حدود خضراء */
+    background-color: white; /* خلفية بيضاء */
+    color: black; /* نص أسود */
+    border-radius: 5px; /* زوايا مدورة */
 }
 
 button {
-    background-color: goldenrod;
-    color: darkgreen;
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    background-color: darkgreen; /* خلفية خضراء */
+    color: goldenrod; /* نص ذهبي */
     border: none;
     cursor: pointer;
+    font-weight: bold; /* نص عريض */
+    border-radius: 5px; /* زوايا مدورة */
+    transition: background-color 0.3s ease; /* تأثير عند التمرير */
+}
+
+button:hover {
+    background-color: green; /* تغيير اللون عند التمرير */
 }
 
 .sidebar {
@@ -42,7 +55,7 @@ button {
     z-index: 1;
     top: 0;
     right: 0;
-    background-color: #111;
+    background-color: darkgreen; /* خلفية خضراء غامقة */
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -52,7 +65,7 @@ button {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: goldenrod;
+    color: goldenrod; /* نص ذهبي */
     display: block;
     transition: 0.3s;
 }
@@ -65,7 +78,7 @@ button {
     margin-left: 50px;
     background: none;
     border: none;
-    color: goldenrod;
+    color: goldenrod; /* نص ذهبي */
     cursor: pointer;
 }
 
@@ -73,4 +86,29 @@ button {
     margin-right: 0;
     padding: 16px;
     transition: margin-right .5s;
+}
+
+h1, h2 {
+    color: goldenrod; /* عناوين ذهبية */
+}
+
+a {
+    color: goldenrod; /* روابط ذهبية */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline; /* تأثير عند التمرير */
+}
+
+#requestsList, #adminRequestsList {
+    margin-top: 20px;
+}
+
+#requestsList div, #adminRequestsList div {
+    background-color: white; /* خلفية بيضاء */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px; /* زوايا مدورة */
+    border: 1px solid darkgreen; /* حدود خضراء */
 }
