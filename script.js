@@ -1,3 +1,8 @@
+// عند تحميل الصفحة، إظهار صفحة تسجيل الدخول
+window.onload = function() {
+    showPage('loginPage');
+};
+
 // بيانات المستخدمين والطلبات
 let users = [];
 let requests = [];
