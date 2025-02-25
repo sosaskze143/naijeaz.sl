@@ -31,11 +31,12 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     const phone = document.getElementById('registerPhone').value;
     const nationality = document.getElementById('registerNationality').value;
     const birthdate = document.getElementById('registerBirthdate').value;
+    const identifier = document.getElementById('registerIdentifier').value;
 
     if (users.some(u => u.id === id)) {
         alert("رقم الهوية مسجل مسبقًا");
     } else {
-        users.push({ id, password, phone, nationality, birthdate });
+        users.push({ id, password, phone, nationality, birthdate, identifier });
         alert("تم إنشاء الحساب بنجاح");
         showPage('loginPage');
     }
@@ -44,13 +45,20 @@ document.getElementById('registerForm').addEventListener('submit', function(even
 // إنشاء طلب
 document.getElementById('requestForm').addEventListener('submit', function(event) {
     event.preventDefault();
+    const identifier = document.getElementById('requestIdentifier').value;
     const details = document.getElementById('requestDetails').value;
     const files = document.getElementById('fileUpload').files;
     const requestId = requests.length + 1;
 
+    if (!identifier) {
+        alert("يرجى إدخال رقم التعريف");
+        return;
+    }
+
     requests.push({
         id: requestId,
         userId: currentUser.id,
+        identifier,
         details,
         files,
         status: "قيد المراجعة"
@@ -78,7 +86,7 @@ function searchRequests() {
     const searchTerm = document.getElementById('searchInput').value;
     const filteredRequests = requests.filter(req => 
         req.userId.includes(searchTerm) || req.id.toString().includes(searchTerm)
-    ;
+    );
     const adminRequestsList = document.getElementById('adminRequestsList');
     adminRequestsList.innerHTML = filteredRequests.map(req => `
         <div>
