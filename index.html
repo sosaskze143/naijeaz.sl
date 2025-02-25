@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ناجز</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <button class="sidebar-toggle">☰</button>
+        <div class="sidebar-content">
+            <h2>مرحبا <span id="username"></span></h2>
+            <ul>
+                <li><a href="#" onclick="showPage('createRequest')">إنشاء طلب</a></li>
+                <li><a href="#" onclick="showPage('myRequests')">طلباتي</a></li>
+                <li><a href="#" onclick="showPage('support')">الدعم الفني</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <div id="welcomePage" class="page">
+            <h1>اهلاً بك في ناجز</h1>
+        </div>
+        <div id="createRequest" class="page" style="display:none;">
+            <h2>إنشاء طلب</h2>
+            <form id="requestForm">
+                <input type="file" id="fileUpload" multiple>
+                <textarea id="requestDetails" maxlength="1500" placeholder="اكتب تفاصيل طلبك هنا..."></textarea>
+                <button type="submit">إرسال الطلب</button>
+            </form>
+        </div>
+        <div id="myRequests" class="page" style="display:none;">
+            <h2>طلباتي</h2>
+            <div id="requestsList"></div>
+        </div>
+        <div id="support" class="page" style="display:none;">
+            <h2>الدعم الفني</h2>
+            <p>للاستفسارات، يرجى الاتصال على الرقم: 0123456789</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
