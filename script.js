@@ -1,7 +1,28 @@
-// عند تحميل الصفحة، إظهار صفحة تسجيل الدخول
+// عند تحميل الصفحة، تحميل البيانات وعرض صفحة تسجيل الدخول
 window.onload = function() {
+    loadData(); // تحميل البيانات من localStorage
     showPage('loginPage');
 };
+
+// تحميل البيانات من localStorage
+function loadData() {
+    const savedUsers = localStorage.getItem('users');
+    const savedRequests = localStorage.getItem('requests');
+
+    if (savedUsers) {
+        users = JSON.parse(savedUsers); // تحميل المستخدمين
+    }
+
+    if (savedRequests) {
+        requests = JSON.parse(savedRequests); // تحميل الطلبات
+    }
+}
+
+// حفظ البيانات في localStorage
+function saveData() {
+    localStorage.setItem('users', JSON.stringify(users)); // حفظ المستخدمين
+    localStorage.setItem('requests', JSON.stringify(requests)); // حفظ الطلبات
+}
 
 // بيانات المستخدمين والطلبات
 let users = [];
@@ -15,13 +36,13 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     const password = document.getElementById('loginPassword').value;
 
     if (id === "admin" && password === "admin") {
-        showPage('adminPage');
+        showPage('adminPage'); // توجيه المدير إلى واجهة المدير
     } else {
         const user = users.find(u => u.id === id && u.password === password);
         if (user) {
             currentUser = user;
             document.getElementById('username').textContent = user.id;
-            showPage('userPage');
+            showPage('userPage'); // توجيه المستخدم إلى واجهة المستخدم
         } else {
             alert("رقم الهوية أو كلمة السر غير صحيحة");
         }
@@ -42,8 +63,9 @@ document.getElementById('registerForm').addEventListener('submit', function(even
         alert("رقم الهوية مسجل مسبقًا");
     } else {
         users.push({ id, password, phone, nationality, birthdate, identifier });
+        saveData(); // حفظ البيانات بعد إنشاء حساب
         alert("تم إنشاء الحساب بنجاح");
-        showPage('loginPage');
+        showPage('loginPage'); // العودة إلى صفحة تسجيل الدخول
     }
 });
 
@@ -69,6 +91,7 @@ document.getElementById('requestForm').addEventListener('submit', function(event
         status: "قيد المراجعة"
     });
 
+    saveData(); // حفظ البيانات بعد إنشاء طلب
     alert("تم إرسال الطلب بنجاح");
     showPage('myRequestsPage');
     displayUserRequests();
@@ -98,8 +121,18 @@ function searchRequests() {
             <p>رقم الطلب: ${req.id}</p>
             <p>رقم الهوية: ${req.userId}</p>
             <p>حالة الطلب: ${req.status}</p>
+            <button onclick="deleteRequest(${req.id})">حذف الطلب</button>
         </div>
     `).join('');
+}
+
+// حذف الطلب (للمدير)
+function deleteRequest(requestId) {
+    if (confirm("هل أنت متأكد من حذف هذا الطلب؟")) {
+        requests = requests.filter(req => req.id !== requestId);
+        saveData(); // حفظ البيانات بعد الحذف
+        searchRequests(); // تحديث القائمة
+    }
 }
 
 // تبديل الصفحات
