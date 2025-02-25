@@ -1,76 +1,108 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: darkgreen;
-    color: goldenrod;
-    margin: 0;
-    padding: 0;
-    direction: rtl;
+// بيانات المستخدمين والطلبات
+let users = [];
+let requests = [];
+let currentUser = null;
+
+// تسجيل الدخول
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const id = document.getElementById('loginId').value;
+    const password = document.getElementById('loginPassword').value;
+
+    if (id === "admin" && password === "admin") {
+        showPage('adminPage');
+    } else {
+        const user = users.find(u => u.id === id && u.password === password);
+        if (user) {
+            currentUser = user;
+            document.getElementById('username').textContent = user.id;
+            showPage('userPage');
+        } else {
+            alert("رقم الهوية أو كلمة السر غير صحيحة");
+        }
+    }
+});
+
+// إنشاء حساب
+document.getElementById('registerForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const id = document.getElementById('registerId').value;
+    const password = document.getElementById('registerPassword').value;
+    const phone = document.getElementById('registerPhone').value;
+    const nationality = document.getElementById('registerNationality').value;
+    const birthdate = document.getElementById('registerBirthdate').value;
+
+    if (users.some(u => u.id === id)) {
+        alert("رقم الهوية مسجل مسبقًا");
+    } else {
+        users.push({ id, password, phone, nationality, birthdate });
+        alert("تم إنشاء الحساب بنجاح");
+        showPage('loginPage');
+    }
+});
+
+// إنشاء طلب
+document.getElementById('requestForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const details = document.getElementById('requestDetails').value;
+    const files = document.getElementById('fileUpload').files;
+    const requestId = requests.length + 1;
+
+    requests.push({
+        id: requestId,
+        userId: currentUser.id,
+        details,
+        files,
+        status: "قيد المراجعة"
+    });
+
+    alert("تم إرسال الطلب بنجاح");
+    showPage('myRequestsPage');
+    displayUserRequests();
+});
+
+// عرض طلبات المستخدم
+function displayUserRequests() {
+    const userRequests = requests.filter(req => req.userId === currentUser.id);
+    const requestsList = document.getElementById('requestsList');
+    requestsList.innerHTML = userRequests.map(req => `
+        <div>
+            <p>رقم الطلب: ${req.id}</p>
+            <p>حالة الطلب: ${req.status}</p>
+        </div>
+    `).join('');
 }
 
-.page {
-    display: none;
-    padding: 20px;
+// بحث المدير
+function searchRequests() {
+    const searchTerm = document.getElementById('searchInput').value;
+    const filteredRequests = requests.filter(req => 
+        req.userId.includes(searchTerm) || req.id.toString().includes(searchTerm)
+    ;
+    const adminRequestsList = document.getElementById('adminRequestsList');
+    adminRequestsList.innerHTML = filteredRequests.map(req => `
+        <div>
+            <p>رقم الطلب: ${req.id}</p>
+            <p>رقم الهوية: ${req.userId}</p>
+            <p>حالة الطلب: ${req.status}</p>
+        </div>
+    `).join('');
 }
 
-#loginPage, #registerPage {
-    text-align: center;
-    margin-top: 100px;
+// تبديل الصفحات
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(page => {
+        page.style.display = 'none';
+    });
+    document.getElementById(pageId).style.display = 'block';
 }
 
-input, textarea, button {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
-    width: 80%;
-    max-width: 400px;
-    border: 1px solid goldenrod;
-    background-color: #333;
-    color: goldenrod;
-}
-
-button {
-    background-color: goldenrod;
-    color: darkgreen;
-    border: none;
-    cursor: pointer;
-}
-
-.sidebar {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-}
-
-.sidebar-content {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: goldenrod;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidebar-toggle {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 30px;
-    margin-left: 50px;
-    background: none;
-    border: none;
-    color: goldenrod;
-    cursor: pointer;
-}
-
-.main-content {
-    margin-right: 0;
-    padding: 16px;
-    transition: margin-right .5s;
-}
+// فتح/إغلاق الشريط الجانبي
+document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar.style.width === '250px') {
+        sidebar.style.width = '0';
+    } else {
+        sidebar.style.width = '250px';
+    }
+});
