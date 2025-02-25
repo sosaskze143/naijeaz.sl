@@ -27,6 +27,7 @@
             <input type="text" id="registerPhone" placeholder="رقم الهاتف" required>
             <input type="text" id="registerNationality" placeholder="الجنسية" required>
             <input type="date" id="registerBirthdate" placeholder="تاريخ الميلاد" required>
+            <input type="text" id="registerIdentifier" placeholder="رقم التعريف" required>
             <button type="submit">إنشاء حساب</button>
         </form>
         <button onclick="showPage('loginPage')">العودة لتسجيل الدخول</button>
@@ -46,12 +47,10 @@
             </div>
         </div>
         <div class="main-content">
-            <div id="welcomePage" class="page">
-                <h1>اهلاً بك في ناجز</h1>
-            </div>
             <div id="createRequestPage" class="page" style="display:none;">
                 <h2>إنشاء طلب</h2>
                 <form id="requestForm">
+                    <input type="text" id="requestIdentifier" placeholder="رقم التعريف" required>
                     <input type="file" id="fileUpload" multiple>
                     <textarea id="requestDetails" maxlength="1500" placeholder="اكتب تفاصيل طلبك هنا..."></textarea>
                     <button type="submit">إرسال الطلب</button>
@@ -63,7 +62,7 @@
             </div>
             <div id="supportPage" class="page" style="display:none;">
                 <h2>الدعم الفني</h2>
-                <p>للاستفسارات، يرجى الاتصال على الرقم: 0123456789</p>
+            </p>لم يتم اعداد هذه الصفحة. الرجاء التواصل على الرقم التالي ( 0554588686 )</p>
             </div>
         </div>
     </div>
